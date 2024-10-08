@@ -8,29 +8,35 @@
  * @author SheratoD
  */
 public abstract class Pregunta {
-    public int peso;
-    String texto;
+    // El peso de la pregunta es protected para permitir acceso desde las subclases
+    protected int peso;
+    // El texto de la pregunta es private ya que no necesita ser modificado
+    private String texto;
 
     public Pregunta(String texto, int peso) {
-        this.peso = peso;
         this.texto = texto;
+        this.peso = peso;
     }
 
+    // Obtiene el peso de la pregunta.
     public int getPeso() {
         return peso;
     }
 
-    public String getTexto() {
-        return texto;
-    }
-
+    // Establece el peso de la pregunta.=
     public void setPeso(int peso) {
         this.peso = peso;
     }
 
-    public void setTexto(String texto) {
-        this.texto = texto;
+    // Obtiene el texto de la pregunta.
+    public String getTexto() {
+        return texto;
     }
-    
-    abstract boolean buscar();
+
+    /**
+     * Método abstracto que debe ser implementado por las subclases.
+     * Este método se encargará de pedir la pregunta, leer la respuesta del usuario
+     * y determinar si la respuesta es correcta.
+     */
+    public abstract boolean buscar();
 }
