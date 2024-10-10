@@ -1,13 +1,13 @@
 import java.util.Scanner;
 
 public class InterfazConsola {
+    private Scanner scanner;
 
-    public static void main(String[] args) {
-        mostrarMenu();
+    public InterfazConsola() {
+        this.scanner = new Scanner(System.in);
     }
-
-    static void mostrarMenu(){
-        Scanner scanner = new Scanner(System.in);
+    
+    public void mostrarMenu(){
         int opcion;
 
         do {
@@ -15,30 +15,27 @@ public class InterfazConsola {
             System.out.println(" Opciones:");
             System.out.println(" 1. Cargar Examen");
             System.out.println(" 2. Crear Examen");
-            System.out.println(" 3. Sistema Crear Examen Usuario");
-            System.out.println(" 4. Salir del programa");
+            System.out.println(" 3. Salir del programa");
             System.out.print(" Selecciona una opcion: ");
 
             opcion = scanner.nextInt();
             scanner.nextLine(); 
-
+            
+            Exam examenActual = new Exam(); // EXAMEN cargado en la memoria
             switch(opcion) {
                 case 1:
                     System.out.println("Opcion elegida: Cargar Examen");
-                    cargarExamen();
+                    examenActual = cargarExamen();
+                    // Luego Dar la OPcion de Slair del Programa
+                    // O Dar Examen
                     break;
-
                 case 2:
                     System.out.println("Opcion elegida: Crear Examen");
-                    crearExamen(scanner);
+                    examenActual = crearExamen(); // SISTEMA DE USUSARIO PARA CREAR EXAMEN
+                    // Luego Dar la OPcion de Slair del Programa
+                    // O Dar Examen
                     break;
-                    
                 case 3:
-                    System.out.println("Opcion elegida: Sistema Crear Examen Usuario");
-                    sistemaCrearExamenUsuario(scanner);
-                    break;
-
-                case 4:
                     System.out.println("Opcion elegida: Salir");
                     System.out.println("Presiona Enter para salir...");
                     scanner.nextLine(); 
@@ -50,38 +47,32 @@ public class InterfazConsola {
 
             System.out.println();
 
-        } while(opcion != 4);
+        } while(opcion != 3);
 
         scanner.close();
     }
 
-    private static void cargarExamen(){
+    private Exam cargarExamen(){ // FALTA
         // Lógica de cargar Examen
         System.out.println("Cargando examen...");
+        // Pedir al ususario el nombre del examen
+        String nombreExamen = ""; // Falta logica del pedirsela al usuario
+        return Exam.cargarDeArchivo(nombreExamen);
     }
 
-    private static void crearExamen(Scanner scanner){
-        // Lógica de crear Examen
+    private Exam crearExamen(){ // LISTO
         System.out.println("Creando examen...");
+        CreadorExamen creador = new CreadorExamen(scanner);
+        return creador.crearExamen();
     }
 
-       private static void darExamen(){
-        // Lógica para dar examen
+    private void darExamen(Exam examen){ // LISTO
         System.out.println("Dando examen...");
+        int puntajeObtenido = examen.darExam();
+        mostrarResultados(puntajeObtenido, examen);
     }
     
-    private static void sistemaCrearExamenUsuario(Scanner scanner) {
-        System.out.println("Examen creado.");
-        System.out.println("1. Tomar Examen");
-        System.out.println("2. Salir");
-        System.out.print("Seleccione una opción: ");
-        int opcion = scanner.nextInt();
-        scanner.nextLine(); 
-
-        if (opcion == 1) {
-            darExamen();
-        } else {
-            System.out.println("Saliendo...");
-        }
+    private void mostrarResultados(int puntajeObtenido, Exam examen) {
+        // MOSTRAR PUNTAJE, PORCENTAJE DE BUENAS
     }
 }
