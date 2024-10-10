@@ -69,7 +69,6 @@ public class Exam {
 //        } catch (IOException e) {
 //            e.printStackTrace();
 //        }
-        return null;
     }
 
     public static Exam cargarDeArchivo(String nombreArchivo) {
