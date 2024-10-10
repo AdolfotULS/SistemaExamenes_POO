@@ -3,15 +3,7 @@ import com.google.gson.*;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 
-/**
- *
- * @author SheratoD
- */
 public class Exam {
     private List<Pregunta> preguntas;
     private int contadorPreguntas;
@@ -30,7 +22,7 @@ public class Exam {
             contadorPreguntas++;
             puntajeTotal += pregunta.getPeso();
         } else {
-            System.out.println("No se pueden agregar más preguntas. Limite alcanzado.");
+            System.out.println("No se pueden agregar mas preguntas. Limite alcanzado.");
         }
     }
 
