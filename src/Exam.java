@@ -34,11 +34,16 @@ public class Exam {
 
     public int darExam() {
         int puntajeObtenido = 0;
+        int numeroPregunta = 1; // Contador para el numero de la pregunta
+
         for (Pregunta pregunta : preguntas) {
+            System.out.println("\nPregunta " + numeroPregunta + "");
             if (pregunta.buscar()) {
                 puntajeObtenido += pregunta.getPeso();
             }
+            numeroPregunta++; // Incrementa el nUmero de la pregunta
         }
+
         return puntajeObtenido;
     }
 
