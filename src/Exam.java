@@ -52,7 +52,7 @@ public class Exam {
     }
 
     public void guardarEnArchivo(String nombreArchivo) {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(nombreArchivo))) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(nombreArchivo + ".txt"))) {
             writer.write(contadorPreguntas + "\n");
             writer.write(puntajeTotal + "\n");
             for (Pregunta pregunta : preguntas) {
