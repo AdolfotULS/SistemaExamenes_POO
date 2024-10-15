@@ -3,49 +3,57 @@ import java.util.Scanner;
 public class TFpregunta extends Pregunta {
     private boolean respuestaCorrecta;
 
-    // Constructor
     public TFpregunta(String texto, boolean respuestaCorrecta, int peso) {
         super(texto, peso);
         this.respuestaCorrecta = respuestaCorrecta;
     }
 
+    @Override
     public boolean buscar() {
         Scanner scanner = new Scanner(System.in);
-        boolean respuestaUsuario;
-        
+
         while (true) {
-            // Muestra el texto de la pregunta
-            System.out.println(getTexto());
-            // Informa al usuario sobre la opcion de no responder
-            System.out.println("[!] Si desea no responder, ingrese #.");
-            // Solicita la respuesta al usuario
-            System.out.print("Ingrese 't' para Verdadero o 'f' para Falso: ");
-            String entrada = scanner.nextLine().toLowerCase();
-            
-            // Verifica la respuesta del usuario
-            if (entrada.equals("t") || entrada.equals("f")) {
-                respuestaUsuario = entrada.equals("t");
-                break; // Sale del bucle si la respuesta es valida
-            } else if (entrada.equals("#")) {
-                return false; // Retorna falso si el usuario decide no responder
-            } else {
-                // Mensaje de error para respuestas invalidas
-                System.out.println("Respuesta invalida. Por favor, ingrese 't' o 'f'.");
+            try {
+                System.out.println(getTexto()); // 1. Muestra el texto de la pregunta
+                System.out.println("Si deseas omitir la pregunta, ingresa '#'"); // 2. Informa sobre la opcion de omitir
+                System.out.print("Ingrese 't' para Verdadero o 'f' para Falso: "); // 3. Solicita la respuesta al
+                                                                                   // usuario
+
+                if (!scanner.hasNextLine()) {
+                    System.out.println("Error: No se pudo leer la entrada del usuario.");
+                    return false;
+                }
+
+                String entrada = scanner.nextLine().trim().toLowerCase(); // 4. Lee y procesa la respuesta del usuario
+
+                if (entrada.equals("#")) { // 5. Verifica si el usuario desea omitir la pregunta
+                    System.out.println("Pregunta omitida.");
+                    return false;
+                } else if (entrada.equals("t") || entrada.equals("f")) { // 6. Verifica si la respuesta es valida
+                    boolean respuestaUsuario = entrada.equals("t");
+                    boolean esCorrecta = (respuestaUsuario == respuestaCorrecta); // 7. Compara la respuesta con la
+                                                                                  // respuesta correcta
+
+                    System.out.println(esCorrecta ? "¡Correcto!"
+                            : "Incorrecto. La respuesta correcta es: " +
+                                    (respuestaCorrecta ? "Verdadero" : "Falso")); // 8. Muestra el resultado al usuario
+
+                    return esCorrecta; // 9. Retorna el resultado de la pregunta
+                } else {
+                    System.out.println("Respuesta invalida. Por favor, ingrese 't' o 'f'."); // 10. Maneja respuestas
+                                                                                             // invalidas
+                }
+            } catch (IllegalStateException e) { // 11. Maneja excepcion por cierre inesperado del scanner
+                System.out.println("Error: El scanner ha sido cerrado inesperadamente.");
+                return false;
+            } catch (Exception e) { // 12. Maneja otras excepciones inesperadas
+                System.out.println("Error inesperado: " + e.getMessage());
+                System.out.println("Por favor, intente nuevamente.");
             }
         }
-        
-        // Compara la respuesta del usuario con la respuesta correcta
-        boolean esCorrecta = (respuestaUsuario == respuestaCorrecta);
-        
-        // Muestra el resultado al usuario
-        if (esCorrecta) {
-            System.out.println("¡Correcto!");
-        } else {
-            System.out.println("Incorrecto. La respuesta correcta es: " + 
-                               (respuestaCorrecta ? "Verdadero" : "Falso"));
-        }
-        
-        // Retorna el resultado de la pregunta
-        return esCorrecta;
+    }
+
+    public boolean getRespuestaCorrecta() {
+        return respuestaCorrecta;
     }
 }
