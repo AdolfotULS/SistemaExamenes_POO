@@ -37,7 +37,8 @@ public class Exam {
         int numeroPregunta = 1; // Contador para el numero de la pregunta
 
         for (Pregunta pregunta : preguntas) {
-            System.out.println("\nPregunta " + numeroPregunta + "");
+            System.out.println("\n---------------------------------------------------------------------");
+            System.out.println("Pregunta " + numeroPregunta + "\n");
             if (pregunta.buscar()) {
                 puntajeObtenido += pregunta.getPeso();
             }
@@ -48,7 +49,7 @@ public class Exam {
     }
 
     public double calcularPorcentaje(int puntajeObtenido) {
-        return (double) puntajeObtenido / puntajeTotal * 100;
+        return ((double) puntajeObtenido * 100) / puntajeTotal;
     }
 
     public void guardarEnArchivo(String nombreArchivo) {
@@ -77,26 +78,29 @@ public class Exam {
 
     public static Exam cargarDeArchivo(String nombreArchivo) {
         Exam examen = new Exam();
-        try (BufferedReader reader = new BufferedReader(new FileReader(nombreArchivo))) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(nombreArchivo + ".txt"))) {
             examen.contadorPreguntas = Integer.parseInt(reader.readLine());
             examen.puntajeTotal = Integer.parseInt(reader.readLine());
             String linea;
             while ((linea = reader.readLine()) != null) {
                 String[] partes = linea.split(",");
+                Pregunta pregunta = null;
                 switch (partes[0]) {
                     case "TF":
-                        examen.agregaPregunta(new TFpregunta(partes[1], Boolean.parseBoolean(partes[2]),
-                                Integer.parseInt(partes[3])));
+                        pregunta = new TFpregunta(partes[1], Boolean.parseBoolean(partes[2]),
+                                Integer.parseInt(partes[3]));
                         break;
                     case "RC":
-                        examen.agregaPregunta(
-                                new Resp_Cortas_Pregunta(partes[1], partes[2], Integer.parseInt(partes[3])));
+                        pregunta = new Resp_Cortas_Pregunta(partes[1], partes[2], Integer.parseInt(partes[3]));
                         break;
                     case "SM":
                         String[] opciones = partes[2].split("\\|");
-                        examen.agregaPregunta(new Selec_Mul_Pregunta(partes[1], opciones, Integer.parseInt(partes[3]),
-                                Integer.parseInt(partes[4])));
+                        pregunta = new Selec_Mul_Pregunta(partes[1], opciones, Integer.parseInt(partes[3]),
+                                Integer.parseInt(partes[4]));
                         break;
+                }
+                if (pregunta != null) {
+                    examen.preguntas.add(pregunta);
                 }
             }
         } catch (IOException | NumberFormatException e) {
