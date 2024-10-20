@@ -33,10 +33,11 @@ public class InterfazConsola {
 
             switch (opcion) {
                 case 1:
-                    limpiarConsola();
                     System.out.println("Opcion elegida: Cargar Examen");
                     examenActual = cargarExamen();
-                    mostrarOpcionesDespuesDeExamen(examenActual);
+                    if(examenActual != null){
+                        mostrarOpcionesDespuesDeExamen(examenActual);
+                    }               
                     break;
 
                 case 2:
