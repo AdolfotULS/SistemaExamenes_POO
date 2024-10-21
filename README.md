@@ -11,7 +11,7 @@ Este proyecto implementa un sistema de administración de exámenes basado en co
 - Cálculo automático de resultados y porcentajes
 
 ## Requisitos del Sistema
-- Java JDK 8 o superior
+- Java JDK 21
 - Cualquier sistema operativo compatible con Java
 
 ## Instalación
